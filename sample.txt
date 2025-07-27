@@ -3,6 +3,9 @@ int main()
 int a=0;
 int b=0;
 printf ("This new feature added now added");
+
+printf ("This is best new feature added");
+
 return o;
 
 }
