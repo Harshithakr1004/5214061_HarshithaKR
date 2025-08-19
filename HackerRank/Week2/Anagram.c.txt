@@ -1,0 +1,22 @@
+ anagram(char* s) {
+ int len=strlen(s);
+ if(len%2!=0){
+ return -1;
+ }
+ int freq[26]={0};
+ int mid =len/2;
+ for (int i=0;i<mid;i++){
+ freq[s[i]-'a']++;
+ }
+ for (int i=mid;i<len;i++){
+ freq[s[i]-'a']--;
+ }
+ int changes=0;
+ for(int i=0;i<26;i++){
+ if(freq[i]>0){
+ changes+=freq[i];
+ }
+ }
+ return changes;
+
+}
