@@ -1,0 +1,49 @@
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+
+int main() {
+        int q;
+    scanf("%d", &q);
+
+    int stack_in_size = 0, stack_out_size = 0;
+    int *stack_in = (int*)malloc(q * sizeof(int));   // max possible enqueue operations
+    int *stack_out = (int*)malloc(q * sizeof(int));
+
+    int top_in = -1, top_out = -1;
+
+    while (q--) {
+        int type, x;
+        scanf("%d", &type);
+
+        if (type == 1) {
+            // Enqueue
+            scanf("%d", &x);
+            stack_in[++top_in] = x;
+            stack_in_size++;
+        } else if (type == 2) {
+            // Dequeue
+            if (top_out == -1) {
+                // Move all elements from stack_in to stack_out
+                while (top_in != -1) {
+                    stack_out[++top_out] = stack_in[top_in--];
+                }
+            }
+            if (top_out != -1) top_out--; // remove front
+        } else if (type == 3) {
+            // Print front
+            if (top_out == -1) {
+                while (top_in != -1) {
+                    stack_out[++top_out] = stack_in[top_in--];
+                }
+            }
+            if (top_out != -1) printf("%d\n", stack_out[top_out]);
+        }
+    }
+
+    free(stack_in);
+    free(stack_out);
+
+    return 0;
+}

@@ -1,0 +1,16 @@
+int truckTour(int petrolpumps_rows, int petrolpumps_columns, int**
+petrolpumps) {
+ long long total = 0, tank = 0;
+ int start = 0;
+ for (int i = 0; i < petrolpumps_rows; i++) {
+ long long petrol = petrolpumps[i][0];
+ long long distance = petrolpumps[i][1];
+ total += petrol - distance;
+ tank += petrol - distance;
+ if (tank < 0) {
+ tank = 0;
+ start = i + 1;
+}
+ }
+ return (total >= 0) ? start : -1;
+}

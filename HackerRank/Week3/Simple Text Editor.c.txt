@@ -1,0 +1,69 @@
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+
+int main() {
+
+    int n;
+    scanf("%d", &n);
+
+    char* text = (char*)malloc(1);  // initial empty string
+    text[0] = '\0';
+    size_t text_len = 0;
+
+    char** stack = (char**)malloc(n * sizeof(char*));
+    int top = -1;
+
+    for (int i = 0; i < n; i++) {
+        int op;
+        scanf("%d", &op);
+
+        if (op == 1) {
+            // append
+            char buffer[1001];
+            scanf("%s", buffer);
+            size_t buf_len = strlen(buffer);
+
+            // save current state
+            stack[++top] = strdup(text);
+
+            // resize text to fit new content
+            text = (char*)realloc(text, text_len + buf_len + 1);
+            strcpy(text + text_len, buffer);
+            text_len += buf_len;
+
+        } else if (op == 2) {
+            // delete
+            int k;
+            scanf("%d", &k);
+
+            stack[++top] = strdup(text);
+
+            text_len -= k;
+            text[text_len] = '\0';
+
+        } else if (op == 3) {
+            // print
+            int k;
+            scanf("%d", &k);
+            printf("%c\n", text[k - 1]);
+
+        } else if (op == 4) {
+            // undo
+            if (top >= 0) {
+                free(text);
+                text = strdup(stack[top--]);
+                text_len = strlen(text);
+            }
+        }
+    }
+
+    // free memory
+    free(text);
+    while (top >= 0) free(stack[top--]);
+    free(stack);
+
+       
+    return 0;
+}
