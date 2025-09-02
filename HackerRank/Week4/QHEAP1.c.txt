@@ -1,0 +1,96 @@
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+
+
+
+int main() {
+    int Q;
+    scanf("%d", &Q);
+
+    int heap[100000 + 5];  // array for heap
+    int size = 0;
+
+    while (Q--) {
+        int type;
+        scanf("%d", &type);
+
+        if (type == 1) {
+            // insert x
+            int x;
+            scanf("%d", &x);
+            heap[size] = x;
+            int i = size;
+            size++;
+
+            // bubble up
+            while (i > 0) {
+                int parent = (i - 1) / 2;
+                if (heap[parent] > heap[i]) {
+                    int tmp = heap[parent];
+                    heap[parent] = heap[i];
+                    heap[i] = tmp;
+                    i = parent;
+                } else break;
+            }
+        }
+        else if (type == 2) {
+            // delete x
+            int x;
+            scanf("%d", &x);
+
+            int idx = -1;
+            for (int i = 0; i < size; i++) {
+                if (heap[i] == x) {
+                    idx = i;
+                    break;
+                }
+            }
+
+            if (idx != -1) {
+                heap[idx] = heap[size - 1];
+                size--;
+
+                // bubble down
+                int i = idx;
+                while (1) {
+                    int left = 2 * i + 1;
+                    int right = 2 * i + 2;
+                    int smallest = i;
+
+                    if (left < size && heap[left] < heap[smallest])
+                        smallest = left;
+                    if (right < size && heap[right] < heap[smallest])
+                        smallest = right;
+
+                    if (smallest != i) {
+                        int tmp = heap[i];
+                        heap[i] = heap[smallest];
+                        heap[smallest] = tmp;
+                        i = smallest;
+                    } else break;
+                }
+
+                // bubble up (if needed)
+                while (i > 0) {
+                    int parent = (i - 1) / 2;
+                    if (heap[parent] > heap[i]) {
+                        int tmp = heap[parent];
+                        heap[parent] = heap[i];
+                        heap[i] = tmp;
+                        i = parent;
+                    } else break;
+                }
+            }
+        }
+        else if (type == 3) {
+            // print min
+            printf("%d\n", heap[0]);
+        }
+    }
+    
+
+    /* Enter your code here. Read input from STDIN. Print output to STDOUT */    
+    return 0;
+}
